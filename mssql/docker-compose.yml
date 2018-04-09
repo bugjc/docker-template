@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+
+  mssql:
+    image: microsoft/mssql-server-linux:latest
+    container_name: mssql
+    hostname: mssqlhost
+    restart: always
+    networks:
+      - mssql-tier
+    ports:
+      - 1433:1433
+    expose:
+      - 1433
+    volumes:
+      - mssql-vol:/var/opt/mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=123456
+
+volumes:
+  mssql-vol:
+    external: true
+
+networks:
+  mssql-tier:
+    driver: bridge
