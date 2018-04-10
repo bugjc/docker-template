@@ -17,7 +17,7 @@ services:
       - mssql-vol:/var/opt/mssql
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=123456
+      - SA_PASSWORD=JavaDev123456
 
 volumes:
   mssql-vol:
