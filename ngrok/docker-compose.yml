@@ -7,5 +7,5 @@ server:
   volumes:
     - /data/ngrok:/myfiles
   environment:
-    - DOMAIN="tunnel.hteen.cn"
+    - DOMAIN="tunnel.bugjc.com"
   command: /bin/sh /server.sh
