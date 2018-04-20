@@ -13,6 +13,6 @@ docker run -idt --restart=always --name ngrok-server \
 -p 8082:80 \
 -p 4432:443 \
 -p 4443:4443 \
--e DOMAIN='tunnel.bugjc.com' hteen/ngrok /bin/bash /server.sh
+-e DOMAIN='tunnel.bugjc.com' hteen/ngrok /bin/sh /server.sh
 
 ```
