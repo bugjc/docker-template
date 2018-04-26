@@ -14,5 +14,12 @@ username: rabbitmq
 password: rabbitmq
 ```
 
-## License
-MIT License
+---------
+
+```
+docker run -d --name some-rabbit \
+-v /data/rabbitmq:/var/lib/rabbitmq \
+-p 15672:15672 \
+-p 5672:5672 \
+daocloud.io/rabbitmq:3-management
+```
