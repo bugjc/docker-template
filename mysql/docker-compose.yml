@@ -5,7 +5,7 @@ services:
     container_name: "mysql"
     environment:
       MYSQL_ROOT_PASSWORD: "javadev"
-      MYSQL_ROOT_HOST: “%”
+      MYSQL_ROOT_HOST: "%"
     image: mysql
     ports:
       - "3306:3306"
