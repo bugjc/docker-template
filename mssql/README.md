@@ -5,7 +5,9 @@
 mkdir -p /home/mssql/mssql-vol/
 docker volume create --opt type=none --opt device=/home/mssql/mssql-vol --opt o=bind --name=mssql-vol
 ```
+
 or
+
 ```
 docker volume create --name=mssql-vol
 ```

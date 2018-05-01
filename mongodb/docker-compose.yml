@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+
+  mongodb:
+    image: daocloud.io/mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGODB_PASS: 123456
