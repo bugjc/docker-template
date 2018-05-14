@@ -6,6 +6,6 @@ services:
     ports:
       - '6379:6379'
     environment:
-      - REDIS_PASSWORD=password123
+      - REDIS_PASSWORD=123456
     volumes:
           - '/Users/qingyang/Desktop/aoki/docker/volume/redis:/bitnami'
