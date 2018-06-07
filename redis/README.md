@@ -5,7 +5,7 @@
 
 ## 第一次运行时设置服务器密码
 ```
-docker run --name redis -p 6379:6379 -v /data/redis:/data -e REDIS_PASSWORD=javadev redis
+docker run --name redis -p 6379:6379 -v /Users/qingyang/Desktop/aoki/docker/volume/redis:/data -e REDIS_PASSWORD=javadev redis
 ```
 
 或
