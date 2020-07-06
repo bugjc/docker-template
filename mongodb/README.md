@@ -5,3 +5,8 @@
 ```
 docker run -p 27017:27017 --name some-mongo -v /Users/qingyang/Desktop/aoki/docker/volume/mangodb:/data/db -d daocloud.io/mongo
 ```
+
+## dokcer compose run
+```
+docker-compose up -d
+```

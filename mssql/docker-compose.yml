@@ -1,7 +1,5 @@
 version: '2'
-
 services:
-
   mssql:
     image: microsoft/mssql-server-linux:latest
     container_name: mssql
