@@ -4,4 +4,4 @@
     ```
     docker-compose up -d
     ```
-[link](https://dashboard.daocloud.io/packages/487751ba-45ef-49d6-833a-490dfaa5e08b)
+[link](https://github.com/wurstmeister/kafka-docker)

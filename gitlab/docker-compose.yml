@@ -1,0 +1,46 @@
+version: '3.7'
+services:
+  gitlab-compose:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab-compose
+    hostname: '192.168.0.107'
+    logging:
+      options:
+        max-size: "500m"
+        max-file: "3"
+    volumes:
+      - '$GITLAB_HOME/gitlab/config:/etc/gitlab'
+      - '$GITLAB_HOME/gitlab/logs:/var/log/gitlab'
+      - '$GITLAB_HOME/gitlab/data:/var/opt/gitlab'
+    ports:
+      - '8929:8929'
+      - '2224:22'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://192.168.0.107:8929'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2224
+        gitlab_rails['time_zone'] = "Asia/Shanghai"
+    networks:
+      - gitlab-network
+
+
+  gitlab-runner1:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlab-runner-compose
+    hostname: gitlab-runner-compose
+    logging:
+      options:
+        max-size: "50m"
+        max-file: "3"
+    volumes:
+      - '/opt/gitlab/config:/etc/gitlab'
+      - '/opt/gitlab/logs:/var/log/gitlab'
+      - '/opt/gitlab/data:/var/opt/gitlab'
+    privileged: false
+    networks:
+      - gitlab-network
+
+
+networks:
+  gitlab-network:
+    name: gitlab-network

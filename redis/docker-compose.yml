@@ -8,4 +8,4 @@ services:
     environment:
       - REDIS_PASSWORD=123456
     volumes:
-          - '/Users/qingyang/Desktop/aoki/docker/volume/redis:/bitnami'
+          - '/ope/volume/redis:/bitnami'
