@@ -4,4 +4,4 @@
     ```
     docker-compose up -d
     ```
-[link](https://github.com/fjcanyue/gitlab-ce-zh)
+[link](https://github.com/sameersbn/docker-gitlab)
