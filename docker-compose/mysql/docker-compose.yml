@@ -1,0 +1,17 @@
+version: '2'
+services:
+  mysql:
+    network_mode: "host"
+    container_name: "mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: "javadev"
+      MYSQL_ROOT_HOST: "%"
+    image: mysql
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    restart: always
+    volumes:
+      - "./data:/var/lib/mysql"
+      - "./conf.d:/etc/mysql/conf.d"

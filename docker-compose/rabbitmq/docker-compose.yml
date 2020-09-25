@@ -1,0 +1,15 @@
+version: '2'
+services:
+  rabbitmq:
+    container_name: "rabbitmq"
+    image: "daocloud.io/library/rabbitmq:3.6.11-management-alpine"
+    environment:
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - "./enabled_plugins:/etc/rabbitmq/enabled_plugins"
+      - "./rabbitmq_data:/var/lib/rabbitmq/"
