@@ -3,12 +3,14 @@ services:
   zookeeper:
     ## 镜像
     image: wurstmeister/zookeeper
+    restart: always
     ports:
       ## 对外暴露的端口号
       - "2181:2181"
   kafka:
     ## 镜像
     image: wurstmeister/kafka
+    restart: always
     volumes:
       ## 挂载位置（kafka镜像和宿主机器之间时间保持一直）
       - /etc/localtime:/etc/localtime
@@ -17,7 +19,7 @@ services:
     environment:
       ## 启动 topic leader 自动负载均衡
       KAFKA_AUTO_LEADER_REBALANCE_ENABLE: "true"
-      ## 启用 topic
+      ## 启用 topic 删除
       KAFKA_DELETE_TOPIC_ENABLE: "true"
       ## 修改:宿主机IP
       KAFKA_ADVERTISED_HOST_NAME: 192.168.0.103
@@ -35,6 +37,7 @@ services:
   kafka-manager:
     ## 镜像：开源的web管理kafka集群的界面
     image: sheepkiller/kafka-manager
+    restart: always
     environment:
         ## 修改:宿主机IP
         ZK_HOSTS: 192.168.0.103
