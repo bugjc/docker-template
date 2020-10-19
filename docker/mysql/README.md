@@ -1,19 +1,21 @@
 
 ## 1. 创建 MySQL容器
 ```
-docker run --restart=always --name ea-mysql -p 3306:3306 -v /data/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d  daocloud.io/mysql
+docker run --restart=always --name ea-mysql -p 3306:3306 -v /data/mysql:/var/lib/mysql -v /etc/mysql:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=123456 -d  daocloud.io/mysql
 ```
 - --restart 表示重启的策略
 - -p 代表端口映射，格式为：宿主机映射端口:容器运行端口
 - -e 代表添加环境变量，MYSQL_ROOT_PASSWORD是root用户的登陆密码
-- -v 代表绑定挂载目录，格式为：宿主机目录:容器目录
+- -v 代表绑定挂载目录，格式为：宿主机目录:容器目录  
+- - `/data/mysql:/var/lib/mysql` 表示将容器里面 `/var/lib/mysql` 的数据挂载到宿主机 `/data/mysql` 目录下；
+- - `/etc/mysql:/etc/mysql/conf.d` 表示将容器目录为 `/etc/mysql/conf.d` 挂载到宿主机 `/etc/mysql` 目录，mysql 容器启动时会加载宿主机 `/etc/mysql` 目录下的所以 `.cnf` 为后缀的文件并覆盖容器里 `/etc/mysql/my.cnf` 文件中的配置。
+
 #### 重启策略参数
 - no，默认策略，在容器退出时不重启容器
 - on-failure，在容器非正常退出时（退出状态非0），才会重启容器
 - on-failure:3，在容器非正常退出时重启容器，最多重启3次
 - always，在容器退出时总是重启容器
 - unless-stopped，在容器退出时总是重启容器，但是不考虑在Docker守护进程启动时就已经停止了的容器
-
 
 ## 2. 进入 MySQL 容器,登陆 MySQL
 
@@ -44,5 +46,14 @@ mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' PASSWORD EXPIRE NE
 # 4.更新root用户密码
 mysql> ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
 mysql> flush privileges;
+```
+#### （2）sql_mode 问题。
+1. 先查询 sql_mode 的配置
+```mysql
+mysql> SELECT @@sql_mode;
+```
+2. 去掉 `ONLY_FULL_GROUP_BY` 后在 mysql 配置文件 `[mysqld]` 下配置属性,例如：
+```text
+sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
 ```
 
