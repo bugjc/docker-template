@@ -48,12 +48,25 @@ mysql> ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
 mysql> flush privileges;
 ```
 #### （2）sql_mode 问题。
-1. 先查询 sql_mode 的配置
+##### 1. 先查询 sql_mode 的配置
 ```mysql
 mysql> SELECT @@sql_mode;
 ```
-2. 去掉 `ONLY_FULL_GROUP_BY` 后在 mysql 配置文件 `[mysqld]` 下配置属性,例如：
+##### 2. 去掉 `ONLY_FULL_GROUP_BY` 后在 mysql 配置文件 `[mysqld]` 下配置属性,例如：
 ```text
 sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
 ```
+##### 3. mysql 中文乱码问题
+首先通过 `show variables like '%char%';` 命令查看当前编码；
+然后在配置文件 `my.cnf` 中配置如下编码格式：
+```text
+[mysqld]
+character-set-server=utf8
 
+[client]
+default-character-set=utf8
+
+[mysql]
+default-character-set=utf8
+```
+最后通过 `service mysql restart` 命令重启即可。
