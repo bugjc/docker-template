@@ -1,0 +1,30 @@
+hugo:
+  image: jojomi/hugo:latest
+  volumes:
+    - ./src/bugjc-hugo-blog/site/:/src/
+    - ./output/:/output
+  environment:
+    - HUGO_REFRESH_TIME=3600
+    - HUGO_THEME=kube
+    - HUGO_BASEURL=bugjc.com
+  restart: always
+
+web:
+  image: jojomi/nginx-static
+  volumes:
+    - ./output:/var/www
+  environment:
+    - VIRTUAL_HOST=bugjc.com
+  ports:
+    - 80
+  restart: always
+
+proxy:
+  image: jwilder/nginx-proxy
+  ports:
+    - 80:80
+    - 443:443
+  volumes:
+    - /var/run/docker.sock:/tmp/docker.sock
+    - vhost.d:/etc/nginx/vhost.d:ro
+  restart: always
