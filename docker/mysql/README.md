@@ -9,7 +9,7 @@ docker run --restart=always --name ea-mysql -p 3306:3306 -v /data/mysql:/var/lib
 - -v 代表绑定挂载目录，格式为：宿主机目录:容器目录  
 - - `/data/mysql:/var/lib/mysql` 表示将容器里面 `/var/lib/mysql` 的数据挂载到宿主机 `/data/mysql` 目录下；
 - - `/etc/mysql:/etc/mysql/conf.d` 表示将容器目录为 `/etc/mysql/conf.d` 挂载到宿主机 `/etc/mysql` 目录，mysql 容器启动时会加载宿主机 `/etc/mysql` 目录下的所以 `.cnf` 为后缀的文件并覆盖容器里 `/etc/mysql/my.cnf` 文件中的配置。
-
+    
 #### 重启策略参数
 - no，默认策略，在容器退出时不重启容器
 - on-failure，在容器非正常退出时（退出状态非0），才会重启容器
@@ -27,13 +27,19 @@ docker exec -it ea-mysql /bin/bash
 mysql -u root -p
 ```
 
-## 3. 常见问题
+## 3. 配置 MySQL
+```
+# 配置 binlog 文件存储位置，默认存储在容器 `/var/lib/mysql` 
+log-bin=/var/lib/mysql
+```
 
-#### （1）客户端连接不上，Navicat 报 1251 或 SQLyog 报 2058 错误。
+## 4. 常见问题
+
+#### （1）客户端连接不上，Navicat 报 1251 或 SQLyog 报 2058 错误 或 linux mysql client 2059 错误。
 解决方式：更改加密规则以及更新root用户密码。原因是客户端只支持旧版的加密。
 
 ```mysql
-# 1.容器中登录mysql,查看mysql的版本
+# 1.容器中登录 mysql,查看 mysql 的版本
 mysql> status;
 
 # 2.进行授权远程连接(注意mysql 8.0跟之前的授权方式不同)
@@ -70,3 +76,10 @@ default-character-set=utf8
 default-character-set=utf8
 ```
 最后通过 `service mysql restart` 命令重启即可。
+
+##### 4. client 连接出现 error 2003
+- 检查 mysql server 服务是否已启动；
+- 检查 防火墙或云服务器的安全组是否允许 mysql 3306 端口的进出。
+
+
+tbl.rename(columns = {'序号':'serial_number', '招股书':'zhaogushu', '公司财报':'financial_report', '行业分类':'industry_classification', '产品类型':'industry_type', '主营业务':'main_business'},inplace = True)
