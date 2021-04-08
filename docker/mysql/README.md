@@ -83,3 +83,15 @@ default-character-set=utf8
 
 
 tbl.rename(columns = {'序号':'serial_number', '招股书':'zhaogushu', '公司财报':'financial_report', '行业分类':'industry_classification', '产品类型':'industry_type', '主营业务':'main_business'},inplace = True)
+
+##### 5. Got a packet bigger than 'max_allowed_packet' bytes
+业务数据转换成 byte 数组，然后存入数据库类型为 mediumblob 的字段中，由于单个 SQL STATEMENT 的大小超过 `max_allowed_packet` 而出现的问题。
+
+解决方法：
+1. 使用 `show VARIABLES like '%max_allowed_packet%';` 命令查看 `max_allowed_packet` 大小；
+1. 在配置文件 `my.cnf` 中配置 `max_allowed_packet` ：
+
+```
+# 设置数据报大小为 4M
+max_allowed_packet=4194304
+```
