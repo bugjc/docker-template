@@ -22,7 +22,7 @@ services:
       ## 启用 topic 删除
       KAFKA_DELETE_TOPIC_ENABLE: "true"
       ## 修改:宿主机IP
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.0.103
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.0.115
       ## 卡夫卡运行是基于zookeeper
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       ## 创建 test 主题的一个分区和三个副本
@@ -40,7 +40,7 @@ services:
     restart: always
     environment:
         ## 修改:宿主机IP
-        ZK_HOSTS: 192.168.0.103
+        ZK_HOSTS: 192.168.0.115
     ports:
       ## 暴露端口
-      - "9001:9000"
+      - "9000:9000"
