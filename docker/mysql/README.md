@@ -1,7 +1,7 @@
 
 ## 1. 创建 MySQL容器
 ```
-docker run --restart=always --name ea-mysql -p 3306:3306 -v /data/mysql:/var/lib/mysql -v /etc/mysql:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=123456 -d  daocloud.io/mysql
+docker run --restart=always --name ea-mysql -p 3306:3306 -v /data/mysql:/var/lib/mysql -v /etc/mysql:/etc/mysql/conf.d -e TZ=Asia/Shanghai -e MYSQL_ROOT_PASSWORD=123456 -d  daocloud.io/mysql
 ```
 - --restart 表示重启的策略
 - -p 代表端口映射，格式为：宿主机映射端口:容器运行端口
@@ -94,4 +94,10 @@ tbl.rename(columns = {'序号':'serial_number', '招股书':'zhaogushu', '公司
 ```
 # 设置数据报大小为 4M
 max_allowed_packet=4194304
+```
+
+##### 6. 写入时间与实际保存在 MySQL 的时间相差 8 小时
+1. 在配置文件 `my.cnf` 中 `[mysqld]` 下配置 `default-time_zone` ：
+```
+default-time_zone = '+8:00'
 ```
