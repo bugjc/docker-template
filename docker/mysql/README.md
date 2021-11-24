@@ -28,12 +28,29 @@ mysql -u root -p
 ```
 
 ## 3. 配置 MySQL
+在 `/etc/mysql` 目录下创建 `my.cnf` 文件并添加如下配置
 ```
-# 配置 binlog 文件存储位置，默认存储在容器 `/var/lib/mysql` 
-log-bin=/var/lib/mysql
+[mysqld]
+character-set-server=utf8
+sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+max_allowed_packet=4194304
+default-time_zone = '+8:00'
+
+[client]
+default-character-set=utf8
+
+[mysql]
+default-character-set=utf8
 ```
 
-## 4. 常见问题
+## 4. 导入数据库
+1. 上传 `rz schema.sql` 文件到宿主机 `/tmp` 目录中;
+2. `docker ps` 查看 mysql `CONTAINER ID`;
+3. 将宿主机文件拷贝到 docker 容器中 `docker cp /tmp/schema.sql [CONTAINER ID]:/tmp/schema.sql`
+2. 进入 MySQL 容器,登陆 MySQL;
+3. 执行 `source /tmp/schema.sql`
+
+## 5. 常见问题
 
 #### （1）客户端连接不上，Navicat 报 1251 或 SQLyog 报 2058 错误 或 linux mysql client 2059 错误。
 解决方式：更改加密规则以及更新root用户密码。原因是客户端只支持旧版的加密。
