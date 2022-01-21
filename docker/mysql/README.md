@@ -1,5 +1,5 @@
 
-## 1. 创建 MySQL容器
+## 1. 创建 MySQL 容器
 ```
 docker run --restart=always --name ea-mysql -p 3306:3306 -v /data/mysql:/var/lib/mysql -v /etc/mysql:/etc/mysql/conf.d -e TZ=Asia/Shanghai -e MYSQL_ROOT_PASSWORD=123456 -d  daocloud.io/mysql
 ```
@@ -79,7 +79,7 @@ mysql> SELECT @@sql_mode;
 ```text
 sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
 ```
-##### 3. mysql 中文乱码问题
+##### 3. MySQL 写入中文乱码问题
 首先通过 `show variables like '%char%';` 命令查看当前编码；
 然后在配置文件 `my.cnf` 中配置如下编码格式：
 ```text
@@ -98,9 +98,6 @@ default-character-set=utf8
 - 检查 mysql server 服务是否已启动；
 - 检查 防火墙或云服务器的安全组是否允许 mysql 3306 端口的进出。
 
-
-tbl.rename(columns = {'序号':'serial_number', '招股书':'zhaogushu', '公司财报':'financial_report', '行业分类':'industry_classification', '产品类型':'industry_type', '主营业务':'main_business'},inplace = True)
-
 ##### 5. Got a packet bigger than 'max_allowed_packet' bytes
 业务数据转换成 byte 数组，然后存入数据库类型为 mediumblob 的字段中，由于单个 SQL STATEMENT 的大小超过 `max_allowed_packet` 而出现的问题。
 
@@ -117,4 +114,28 @@ max_allowed_packet=4194304
 1. 在配置文件 `my.cnf` 中 `[mysqld]` 下配置 `default-time_zone` ：
 ```
 default-time_zone = '+8:00'
+```
+
+###### 7. MySQL 写入中文特殊字符（如：表情包）问题
+MySQL utf8 字符集只支持最长三个字节，而 utf8mb4 字符集支撑最长 4 个字节。
+
+> 注：字符排序规则：utf8_unicode_ci 比较准确，utf8_general_ci 速度比较快。通常情况下 utf8_general_ci 的准确性足够使用。
+
+解决方法：
+1. 修改指定字段的字符集格式为 utf8mb4；
+2. 修改表的字符集格式为 utf8mb4；
+3. 修改数据库的字符集格式为 utf8mb4；
+4. 修改 mysql 的 my.cnf 文件中的字符集键值；
+5. 修改客户端数据库连接池的属性，例如：druid 连接池的 `spring.datasource.druid.connection-init-sqls=set names utf8mb4` 。
+6. 重启数据库。
+##### my.cnf 文件
+```text
+[mysqld]
+character-set-server=utf8mb4
+
+[client]
+default-character-set=utf8mb4
+
+[mysql]
+default-character-set=utf8mb4
 ```
