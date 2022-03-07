@@ -17,6 +17,9 @@ docker run --restart=always --name ea-mysql -p 3306:3306 -v /data/mysql:/var/lib
 - always，在容器退出时总是重启容器
 - unless-stopped，在容器退出时总是重启容器，但是不考虑在Docker守护进程启动时就已经停止了的容器
 
+##### 注意事项
+1. 容器绑定的宿主机端口生产环境不使用默认 3306 端口且 root 密码强度要高。
+
 ## 2. 进入 MySQL 容器,登陆 MySQL
 
 ```
